@@ -2,7 +2,7 @@ import psycopg2
 import passwords
 
 users_count = 0
-ip = ''
+ip = '10.0.0.224'
 def addrow(uesrs):
     conn = psycopg2.connect(database="resoniteUserCount",
                         host=ip,

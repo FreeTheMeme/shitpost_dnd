@@ -5,7 +5,7 @@ username = 'postgres'
 password = 'example'
 host = '10.0.0.224'
 port = 5432
-database_name = 'my_database'
+database_name = 'shitpost_dnd'
 
 conn = psycopg2.connect(
     user=username,
@@ -17,8 +17,16 @@ conn = psycopg2.connect(
 
 cur = conn.cursor()
 
-# Create a new database
-cur.execute("CREATE DATABASE my_new_database")
+# Create
+command = """
+CREATE TABLE IF NOT EXISTS employees (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    position VARCHAR(100),
+    hire_date DATE
+);
+"""
+cur.execute(command)
 
 conn.commit()
 
