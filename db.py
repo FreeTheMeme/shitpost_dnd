@@ -1,11 +1,13 @@
 import psycopg2
 import passwords
+from datetime import datetime, timezone
 
 username = 'postgres'
 password = 'example'
 host = '10.0.0.224'
 port = 5432
 database_name = 'shitpost_dnd'
+dt = datetime.now(timezone.utc)
 
 # Creates the users table
 def addUserTable():
@@ -23,12 +25,40 @@ def addUserTable():
         id SERIAL PRIMARY KEY,
         name VARCHAR(10),
         description TEXT,
-        date_created DATE
+        date_created TIMESTAMP
     );
     """
     cur.execute(command)
     conn.commit()
     conn.close()
+# adds user
+def addUserRow(name,description):
+    conn = psycopg2.connect(
+    user=username,
+    password=password,
+    host=host,
+    port=port,
+    dbname=database_name
+    )
+    cur = conn.cursor()
+        
+    # SQL command to insert a row into the table
+    insert_row_command = """
+    INSERT INTO users (name, description, date_created)
+    VALUES (%s, %s, %s);
+    """
+
+
+    # Execute the SQL command with the provided values
+    cur.execute(insert_row_command, (name, description, dt))
+
+    # Commit the transaction
+    conn.commit()
+
+    # Close the cursor and connection
+    cur.close()
+    conn.close()
+
 
 # Creates the charter table
 def addCharterTable():
@@ -59,7 +89,7 @@ def addCharterTable():
     conn.commit()
     conn.close()
 
-    # Creates the charter table
+# Creates the charter table
 def addItemTable():
     conn = psycopg2.connect(
     user=username,
@@ -84,24 +114,3 @@ def addItemTable():
     cur.execute(command)
     conn.commit()
     conn.close()
-
-
-
-
-def addrow(uesrs):
-    conn = psycopg2.connect(database="resoniteUserCount",
-                        host=host,
-                        user="postgres",
-                        password=passwords.DBpassword,
-                        port="5432")
-
-    cur = conn.cursor()
-
-    insert_script = 'INSERT INTO resoniteUserCount_data (users, time) VALUES (%s, %s)'
-    insert_value = (uesrs, "now")
-    cur.execute(insert_script, insert_value)
-    conn.commit()
-
-    cur.close()
-    conn.close()
-    print("added row ",uesrs," here")
