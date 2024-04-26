@@ -1,11 +1,96 @@
 import psycopg2
 import passwords
 
-users_count = 0
-ip = '10.0.0.224'
+username = 'postgres'
+password = 'example'
+host = '10.0.0.224'
+port = 5432
+database_name = 'shitpost_dnd'
+
+# Creates the users table
+def addUserTable():
+    conn = psycopg2.connect(
+    user=username,
+    password=password,
+    host=host,
+    port=port,
+    dbname=database_name
+    )
+    cur = conn.cursor()
+
+    command = """
+    CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(10),
+        description TEXT,
+        date_created DATE
+    );
+    """
+    cur.execute(command)
+    conn.commit()
+    conn.close()
+
+# Creates the charter table
+def addCharterTable():
+    conn = psycopg2.connect(
+    user=username,
+    password=password,
+    host=host,
+    port=port,
+    dbname=database_name
+    )
+    cur = conn.cursor()
+    
+    command = """
+    CREATE TABLE IF NOT EXISTS charters (
+        id SERIAL PRIMARY KEY,
+        owner_name VARCHAR(10),
+        charter_name VARCHAR(10),
+        description TEXT,
+        date_created DATE,
+        level INT,
+        max_Health INT,
+        max_mana INT,
+        current_Health INT,
+        current_mana INT
+    );
+    """
+    cur.execute(command)
+    conn.commit()
+    conn.close()
+
+    # Creates the charter table
+def addItemTable():
+    conn = psycopg2.connect(
+    user=username,
+    password=password,
+    host=host,
+    port=port,
+    dbname=database_name
+    )
+    cur = conn.cursor()
+    
+    command = """
+    CREATE TABLE IF NOT EXISTS items (
+        id SERIAL PRIMARY KEY,
+        owner_name VARCHAR(10),
+        item_name VARCHAR(10),
+        description TEXT,
+        date_created DATE,
+        Health_buff INT,
+        mana_buff INT
+    );
+    """
+    cur.execute(command)
+    conn.commit()
+    conn.close()
+
+
+
+
 def addrow(uesrs):
     conn = psycopg2.connect(database="resoniteUserCount",
-                        host=ip,
+                        host=host,
                         user="postgres",
                         password=passwords.DBpassword,
                         port="5432")
@@ -20,30 +105,3 @@ def addrow(uesrs):
     cur.close()
     conn.close()
     print("added row ",uesrs," here")
-
-
-def getdata(id):
-    conn = psycopg2.connect(database="resoniteUserCount",
-                        host=ip,
-                        user="postgres",
-                        password=passwords.DBpassword,
-                        port="5432")
-    # Create a cursor object to execute SQL commands
-    cur = conn.cursor()
-
-    # SQL command to query all data from the table
-    query = 'SELECT * FROM resoniteUserCount_data WHERE id ='+ str(id)
-
-    # Execute the SQL command
-    cur.execute(query)
-
-    # Fetch all rows from the query result
-    rows = cur.fetchall()
-
-    # Iterate through the rows and print each one
-    for row in rows:
-        print(row)
-
-    # Close the cursor and connection
-    cur.close()
-    conn.close()

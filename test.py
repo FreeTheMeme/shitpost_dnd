@@ -19,11 +19,11 @@ cur = conn.cursor()
 
 # Create
 command = """
-CREATE TABLE IF NOT EXISTS employees (
+CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100),
-    position VARCHAR(100),
-    hire_date DATE
+    name VARCHAR(10),
+    position VARCHAR(1000),
+    date_created DATE
 );
 """
 cur.execute(command)
