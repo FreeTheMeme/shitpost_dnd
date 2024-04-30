@@ -1,3 +1,4 @@
+#old depercaded
 import psycopg2
 import passwords
 from datetime import datetime, timezone
