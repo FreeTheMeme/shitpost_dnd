@@ -1,7 +1,7 @@
-import charter
+from Charter import Charter
 
-bob = charter()
-print(bob.current_mana)
-bob.usespell()
-print(bob.current_mana)
+bob = Charter('bob 2')
+print(bob)
+bob.useSpell()
+print(bob)
 
