@@ -1,7 +1,6 @@
+from Enemy import Enemy
 class Charter:
-
-        
-    
+   
     def __init__(self, name, level=1):
         self.name = name
         self.level = level
@@ -12,15 +11,18 @@ class Charter:
         self.alive = True
 
 #actions 
-    def useSpell(self):
+    def useSpell(self,Enemy):
         self.current_mana -=  4
+        Enemy.health -= 4
         print("Use Spell")
-    def atttack(self):
+    def takeDamage(self):
         self.current_health -= 4
-        print("attact")
+        if(current_health <= 0):
+            self.alive = False
+            print("dead")
+        else:
+            print("attact")
     
-        
-
 
 # allows us to see all vars at once
     def __str__(self):
